@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: Text(widget.title)),
       body: Center(
         child: Container(
+          alignment: Alignment.center,
           width: 250,
           height: 250,
           decoration: BoxDecoration(
