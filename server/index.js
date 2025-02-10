@@ -30,6 +30,8 @@ app.use(express.json());
 
 app.get('/api/home-widgets', (req, res) => {
     const userId = req.query.userId;
+    const containerColor = req.query.color;
+    const containerRadius = req.query.radius;
 
     if(!userId) {
         return res.status(400).json({success: false, messgae: "userId is required"});
@@ -37,7 +39,11 @@ app.get('/api/home-widgets', (req, res) => {
 
     const socketId = userSockets.get(userId);
     if(socketId) {
-        io.to(socketId).emit("home-widgets", "Here is home widgets");
+        var data = `{
+            "color": "${containerColor}",
+            "radius": ${containerRadius}   
+        }`;
+        io.to(socketId).emit("home-widgets", data);
         return res.status(200).json({success: true});
     }else {
         return res.status(400).json({success: false, messgae: "No Active session found."});
