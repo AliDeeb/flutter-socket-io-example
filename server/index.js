@@ -45,6 +45,6 @@ app.get('/api/home-widgets', (req, res) => {
     }
 });
 
-server.listen(3500, () => {
-    console.log("Server starter on port 3500");
+server.listen(3000, () => {
+    console.log("Server starter on port 3000");
 });
