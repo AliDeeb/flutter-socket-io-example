@@ -17,6 +17,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String _data = '';
   String _color = '';
   int _radius = 0;
+  double _width = 250;
+  double _height = 250;
 
   @override
   void initState() {
@@ -29,6 +31,8 @@ class _MyHomePageState extends State<MyHomePage> {
       final jsonData = json.decode(data);
       _color = jsonData['color'] ?? "";
       _radius = jsonData['radius'] ?? 0;
+      _width = ((jsonData['width'] ?? 0) as int).toDouble();
+      _height = ((jsonData['height'] ?? 0) as int).toDouble();
       _color = _color.replaceAll("#", "");
       setState(() => _data = '');
     };
@@ -41,15 +45,24 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Center(
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(seconds: 1),
+          curve: Curves.fastEaseInToSlowEaseOut,
           alignment: Alignment.center,
-          width: 250,
-          height: 250,
+          width: _width,
+          height: _height,
           decoration: BoxDecoration(
             color: _color.isNotEmpty ? hexToColor(_color) : null,
             borderRadius: BorderRadius.circular(_radius.toDouble()),
           ),
-          child: Text(_data),
+          child: Text(
+            _data,
+            style: const TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w600,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

@@ -13,7 +13,7 @@ io.on("connection", (socket) => {
 
     socket.on("user-join", (data) => {
         userSockets.set(data, socket.id);
-        io.to(socket.id).emit("session-join", "Your session has been started");
+        io.to(socket.id).emit("session-join", "Successfully established a connection to the server.");
     });
 
     socket.on("disconnect", () => {
@@ -32,6 +32,8 @@ app.get('/api/home-widgets', (req, res) => {
     const userId = req.query.userId;
     const containerColor = req.query.color ?? "";
     const containerRadius = req.query.radius ?? 0;
+    const containerWidth = req.query.width ?? 0;
+    const containerHeight = req.query.height ?? 0;
 
     if(!userId) {
         return res.status(400).json({success: false, messgae: "userId is required"});
@@ -41,7 +43,9 @@ app.get('/api/home-widgets', (req, res) => {
     if(socketId) {
         var data = `{
             "color": "${containerColor}",
-            "radius": ${containerRadius}
+            "radius": ${containerRadius},
+            "width": ${containerWidth},
+            "height": ${containerHeight}
         }`;
         io.to(socketId).emit("home-widgets", data);
         return res.status(200).json({success: true});
